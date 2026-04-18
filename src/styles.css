@@ -1,0 +1,97 @@
+/* ===== STABLE CLASSY POS THEME ===== */
+
+:root {
+--bg-color: #f8fafc;
+--text-color: #0f172a;
+--muted-color: #64748b;
+
+--primary-color: #4f46e5;
+--success-color: #16a34a;
+
+--card-bg: #ffffff;
+--border-color: #e2e8f0;
+}
+
+/* DARK MODE */
+.theme-dark {
+--bg-color: #020617;
+--text-color: #e2e8f0;
+--muted-color: #94a3b8;
+
+--primary-color: #6366f1;
+--success-color: #22c55e;
+
+--card-bg: #0f172a;
+--border-color: #1e293b;
+}
+
+body {
+background-color: var(--bg-color);
+color: var(--text-color);
+}
+
+/* NAVBAR */
+.navbar {
+background: var(--card-bg);
+border-bottom: 1px solid var(--border-color);
+}
+
+/* CARDS (NO MOVEMENT) */
+.card {
+background: var(--card-bg);
+border-radius: 10px;
+border: 1px solid var(--border-color);
+box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* PRODUCT CARDS */
+.product-card {
+border: 1px solid var(--border-color);
+border-radius: 10px;
+padding: 10px;
+background: var(--card-bg);
+cursor: pointer;
+}
+
+/* SELECTED STATE (IMPORTANT UX) */
+.product-card.selected {
+border: 2px solid var(--primary-color);
+}
+
+/* BUTTONS */
+.btn-primary {
+background: var(--primary-color);
+border: none;
+}
+
+.btn-success {
+background: var(--success-color);
+border: none;
+}
+
+/* INPUTS */
+input, select {
+background: var(--card-bg);
+color: var(--text-color);
+border: 1px solid var(--border-color);
+}
+
+/* TOTAL */
+.total-row.grand {
+font-weight: 700;
+color: var(--success-color);
+border-top: 1px solid var(--border-color);
+padding-top: 8px;
+}
+
+
+
+.cart-item {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

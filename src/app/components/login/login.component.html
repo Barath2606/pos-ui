@@ -1,0 +1,110 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100">
+
+  <div class="login-card card shadow-lg border-0" style="width: 420px;">
+
+    <!-- Header -->
+    <div class="card-header text-center py-4 bg-primary text-white border-0"
+         style="border-radius: 16px 16px 0 0 !important;">
+      <div class="mb-2">
+        <i class="bi bi-shop-window" style="font-size: 2.5rem;"></i>
+      </div>
+      <h4 class="mb-0 fw-bold">Smart POS System</h4>
+      <p class="mb-0 small opacity-75">Sign in to your account</p>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body p-4">
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center gap-2 py-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-person me-1 text-primary"></i>Username
+        </label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          [(ngModel)]="username"
+          placeholder="Enter username"
+          (keyup.enter)="login()"
+          [disabled]="isLoading"
+          autocomplete="username" />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-lock me-1 text-primary"></i>Password
+        </label>
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control form-control-lg"
+            [(ngModel)]="password"
+            placeholder="Enter password"
+            (keyup.enter)="login()"
+            [disabled]="isLoading"
+            autocomplete="current-password" />
+          <button class="btn btn-outline-secondary" type="button" (click)="togglePassword()">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Button -->
+      <button
+        class="btn btn-primary btn-lg w-100 fw-semibold"
+        (click)="login()"
+        [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+        <i class="bi bi-box-arrow-in-right me-2" *ngIf="!isLoading"></i>
+        {{ isLoading ? 'Signing in...' : 'Sign In' }}
+      </button>
+
+    </div>
+
+    <!-- Footer with demo credentials -->
+    <div class="card-footer bg-light border-0 px-4 py-3"
+         style="border-radius: 0 0 16px 16px !important;">
+      <p class="text-muted small mb-2 fw-semibold text-center">Demo Credentials</p>
+      <div class="row g-2">
+        <div class="col-6">
+          <div class="bg-white border rounded p-2 text-center small"
+               style="cursor:pointer;" (click)="username='admin'; password='admin123'">
+            <i class="bi bi-shield-check text-danger d-block mb-1"></i>
+            <strong>Admin</strong><br>
+            <span class="text-muted">admin / admin123</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="bg-white border rounded p-2 text-center small"
+               style="cursor:pointer;" (click)="username='cashier'; password='cashier123'">
+            <i class="bi bi-person-badge text-success d-block mb-1"></i>
+            <strong>Cashier</strong><br>
+            <span class="text-muted">cashier / cashier123</span>
+          </div>
+        </div>
+      </div>
+      <p class="text-muted text-center mt-2 mb-0" style="font-size: 0.72rem;">
+        Click a card above to auto-fill credentials
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.login-wrapper {
+  background: linear-gradient(135deg, #1a237e 0%, #1976d2 50%, #42a5f5 100%);
+  min-height: 100vh;
+}
+.login-card {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+</style>

@@ -1,0 +1,65 @@
+<!-- Navbar — hidden on login page -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" *ngIf="authService.isLoggedIn()">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="bi bi-shop me-2"></i>Smart POS
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/billing" routerLinkActive="active">
+            <i class="bi bi-receipt me-1"></i>Billing
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isAdmin()">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">
+            <i class="bi bi-box-seam me-1"></i>Products
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/sales" routerLinkActive="active">
+            <i class="bi bi-bar-chart-line me-1"></i>Sales Report
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isAdmin()">
+          <a class="nav-link" routerLink="/users" routerLinkActive="active">
+            <i class="bi bi-people me-1"></i>Users
+          </a>
+        </li>
+      </ul>
+
+      <!-- User info + logout -->
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item me-3">
+          <span class="navbar-text text-white-50 small">
+            <i class="bi me-1"
+               [ngClass]="authService.isAdmin() ? 'bi-shield-check text-warning' : 'bi-person-badge'">
+            </i>
+            {{ authService.getFullName() }}
+            <span class="badge ms-1 small"
+                  [ngClass]="authService.isAdmin() ? 'bg-warning text-dark' : 'bg-success'">
+              {{ authService.getRole() }}
+            </span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page content -->
+<div [class]="authService.isLoggedIn() ? 'container py-4' : ''">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="text-center text-muted py-3 small border-top mt-4" *ngIf="authService.isLoggedIn()">
+  &copy; 2024 Smart POS System — All rights reserved
+</footer>
