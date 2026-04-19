@@ -1,65 +1,113 @@
-<!-- Navbar — hidden on login page -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" *ngIf="authService.isLoggedIn()">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">
-      <i class="bi bi-shop me-2"></i>Smart POS
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/billing" routerLinkActive="active">
-            <i class="bi bi-receipt me-1"></i>Billing
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/products" routerLinkActive="active">
-            <i class="bi bi-box-seam me-1"></i>Products
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/sales" routerLinkActive="active">
-            <i class="bi bi-bar-chart-line me-1"></i>Sales Report
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/users" routerLinkActive="active">
-            <i class="bi bi-people me-1"></i>Users
-          </a>
-        </li>
-      </ul>
-
-      <!-- User info + logout -->
-      <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item me-3">
-          <span class="navbar-text text-white-50 small">
-            <i class="bi me-1"
-               [ngClass]="authService.isAdmin() ? 'bi-shield-check text-warning' : 'bi-person-badge'">
-            </i>
-            {{ authService.getFullName() }}
-            <span class="badge ms-1 small"
-                  [ngClass]="authService.isAdmin() ? 'bg-warning text-dark' : 'bg-success'">
-              {{ authService.getRole() }}
-            </span>
-          </span>
-        </li>
-        <li class="nav-item">
-          <button class="btn btn-outline-light btn-sm" (click)="logout()">
-            <i class="bi bi-box-arrow-right me-1"></i>Logout
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Page content -->
-<div [class]="authService.isLoggedIn() ? 'container py-4' : ''">
+<!-- Login page — no sidebar -->
+<div *ngIf="!authService.isLoggedIn()">
   <router-outlet></router-outlet>
 </div>
 
-<footer class="text-center text-muted py-3 small border-top mt-4" *ngIf="authService.isLoggedIn()">
-  &copy; 2024 Smart POS System — All rights reserved
-</footer>
+<!-- Main app layout with sidebar -->
+<div class="pos-layout" *ngIf="authService.isLoggedIn()">
+
+  <!-- Sidebar -->
+  <aside class="pos-sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛒</div>
+      <div class="sidebar-logo-text">Smart POS</div>
+      <div class="sidebar-logo-sub">Point of Sale System</div>
+    </div>
+
+    <!-- User info -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">
+        {{ authService.getFullName().charAt(0) }}
+      </div>
+      <div>
+        <div class="sidebar-user-name">{{ authService.getFullName() }}</div>
+        <div class="sidebar-user-role">
+          <span style="color: #63bb9c; font-size:0.65rem; font-weight:600;">
+            ● {{ authService.getRole() }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+
+      <div class="sidebar-section-label">Main Menu</div>
+
+      <a class="sidebar-nav-item" routerLink="/dashboard" routerLinkActive="active">
+        <i class="bi bi-grid-1x2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="sidebar-nav-item" routerLink="/billing" routerLinkActive="active">
+        <i class="bi bi-receipt"></i>
+        <span>Billing / POS</span>
+      </a>
+
+      <div class="sidebar-section-label" style="margin-top:8px;">Inventory</div>
+
+      <a class="sidebar-nav-item" *ngIf="authService.isAdmin()"
+         routerLink="/products" routerLinkActive="active">
+        <i class="bi bi-box-seam"></i>
+        <span>Products</span>
+      </a>
+
+      <a class="sidebar-nav-item" routerLink="/stock-alerts" routerLinkActive="active">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span>Stock Alerts</span>
+        <span class="nav-badge" *ngIf="lowStockCount > 0">{{ lowStockCount }}</span>
+      </a>
+
+      <div class="sidebar-section-label" style="margin-top:8px;">Reports</div>
+
+      <a class="sidebar-nav-item" routerLink="/sales" routerLinkActive="active">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Sales Report</span>
+      </a>
+
+      <div class="sidebar-section-label" *ngIf="authService.isAdmin()" style="margin-top:8px;">System</div>
+
+      <a class="sidebar-nav-item" *ngIf="authService.isAdmin()"
+         routerLink="/users" routerLinkActive="active">
+        <i class="bi bi-people"></i>
+        <span>Users</span>
+      </a>
+
+    </nav>
+
+    <!-- Logout -->
+    <div class="sidebar-footer">
+      <a class="sidebar-nav-item" (click)="logout()" style="cursor:pointer; color: #ef4444;">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Main content area -->
+  <main class="pos-main">
+
+    <!-- Top bar -->
+    <div class="pos-topbar">
+      <div>
+        <div class="topbar-title">{{ pageTitle }}</div>
+        <div class="topbar-subtitle">{{ pageSubtitle }}</div>
+      </div>
+      <div class="topbar-right">
+        <span style="font-size:0.78rem; color: var(--text-muted);">
+          <i class="bi bi-clock me-1"></i>{{ currentTime }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="pos-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </main>
+
+</div>

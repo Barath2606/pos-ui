@@ -1,0 +1,109 @@
+<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border"></div>
+</div>
+
+<div *ngIf="!isLoading">
+
+  <!-- Summary cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="card text-center p-3" style="border-left:3px solid var(--red);">
+        <div style="font-size:1.8rem; font-weight:700; color:var(--red);">{{ outOfStock.length }}</div>
+        <div class="small text-muted mt-1">Out of Stock</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-center p-3" style="border-left:3px solid var(--orange);">
+        <div style="font-size:1.8rem; font-weight:700; color:var(--orange);">{{ criticalStock.length }}</div>
+        <div class="small text-muted mt-1">Critical (≤5)</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-center p-3" style="border-left:3px solid var(--blue);">
+        <div style="font-size:1.8rem; font-weight:700; color:var(--blue);">{{ lowStock.length }}</div>
+        <div class="small text-muted mt-1">Low Stock (≤10)</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card text-center p-3" style="border-left:3px solid var(--accent);">
+        <div style="font-size:1.8rem; font-weight:700; color:var(--accent-dark);">{{ healthyStock.length }}</div>
+        <div class="small text-muted mt-1">Healthy Stock</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Out of Stock -->
+  <div class="card mb-3" *ngIf="outOfStock.length > 0">
+    <div class="card-header" style="border-left:3px solid var(--red); color:var(--red);">
+      <i class="bi bi-x-circle-fill me-2"></i>Out of Stock — Immediate Action Required
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Product Name</th><th class="text-end">Price</th><th class="text-center">Stock</th><th class="text-center">Status</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of outOfStock; let i=index">
+            <td class="text-muted small">{{ i+1 }}</td>
+            <td class="fw-500">{{ p.productName }}</td>
+            <td class="text-end">₹{{ p.price | number:'1.2-2' }}</td>
+            <td class="text-center fw-700" style="color:var(--red);">0</td>
+            <td class="text-center"><span class="badge bg-danger">Out of Stock</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Critical Stock -->
+  <div class="card mb-3" *ngIf="criticalStock.length > 0">
+    <div class="card-header" style="border-left:3px solid var(--orange); color:var(--orange);">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>Critical Stock — Reorder Soon
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Product Name</th><th class="text-end">Price</th><th class="text-center">Stock Left</th><th class="text-center">Status</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of criticalStock; let i=index">
+            <td class="text-muted small">{{ i+1 }}</td>
+            <td class="fw-500">{{ p.productName }}</td>
+            <td class="text-end">₹{{ p.price | number:'1.2-2' }}</td>
+            <td class="text-center fw-700" style="color:var(--orange);">{{ p.stockQuantity }}</td>
+            <td class="text-center"><span class="badge bg-warning">Critical</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Low Stock -->
+  <div class="card mb-3" *ngIf="lowStock.length > 0">
+    <div class="card-header" style="border-left:3px solid var(--blue); color:var(--blue);">
+      <i class="bi bi-info-circle-fill me-2"></i>Low Stock — Monitor Closely
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Product Name</th><th class="text-end">Price</th><th class="text-center">Stock Left</th><th class="text-center">Status</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of lowStock; let i=index">
+            <td class="text-muted small">{{ i+1 }}</td>
+            <td class="fw-500">{{ p.productName }}</td>
+            <td class="text-end">₹{{ p.price | number:'1.2-2' }}</td>
+            <td class="text-center fw-700" style="color:var(--blue);">{{ p.stockQuantity }}</td>
+            <td class="text-center"><span class="badge bg-info">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- All good -->
+  <div *ngIf="outOfStock.length === 0 && criticalStock.length === 0 && lowStock.length === 0"
+       class="card text-center py-5">
+    <div style="font-size:3rem;">✅</div>
+    <h5 class="mt-3">All products are well stocked!</h5>
+    <p class="text-muted small">No stock alerts at this time.</p>
+    <a routerLink="/products" class="btn btn-outline-primary mt-2" style="width:fit-content; margin:0 auto;">
+      Manage Products
+    </a>
+  </div>
+
+</div>

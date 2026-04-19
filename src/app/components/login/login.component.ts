@@ -38,7 +38,7 @@ export class LoginComponent {
         this.isLoading = false;
         // Redirect based on role
         if (res.role === 'Admin') {
-          this.router.navigate(['/products']);
+          this.router.navigate(['/dashboard']);
         } else {
           this.router.navigate(['/billing']);
         }

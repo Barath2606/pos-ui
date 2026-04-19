@@ -1,34 +1,55 @@
 <div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100">
 
-  <div class="login-card card shadow-lg border-0" style="width: 420px;">
+  <div class="login-outer d-flex shadow-lg">
 
-    <!-- Header -->
-    <div class="card-header text-center py-4 bg-primary text-white border-0"
-         style="border-radius: 16px 16px 0 0 !important;">
-      <div class="mb-2">
-        <i class="bi bi-shop-window" style="font-size: 2.5rem;"></i>
+    <!-- Left Brand Panel -->
+    <div class="brand-panel d-flex flex-column align-items-center justify-content-center p-5">
+      <div class="brand-icon mb-3">
+        <i class="bi bi-shop-window"></i>
       </div>
-      <h4 class="mb-0 fw-bold">Smart POS System</h4>
-      <p class="mb-0 small opacity-75">Sign in to your account</p>
+      <h3 class="fw-bold text-white mb-1">POS</h3>
+      <p class="text-white-50 small mb-0">Point of Sale System</p>
+
+      <div class="brand-divider my-4"></div>
+
+      <div class="brand-features d-flex flex-column gap-3 w-100">
+        <div class="feature-item d-flex align-items-center gap-3">
+          <div class="feature-dot"></div>
+          <span class="text-white-50 small">Real-time inventory tracking</span>
+        </div>
+        <div class="feature-item d-flex align-items-center gap-3">
+          <div class="feature-dot"></div>
+          <span class="text-white-50 small">Billing & receipts</span>
+        </div>
+        <div class="feature-item d-flex align-items-center gap-3">
+          <div class="feature-dot"></div>
+          <span class="text-white-50 small">Sales analytics & reports</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Body -->
-    <div class="card-body p-4">
+    <!-- Right Form Panel -->
+    <div class="form-panel d-flex flex-column justify-content-center p-5">
+
+      <div class="mb-4">
+        <h4 class="fw-bold mb-1 form-title">Welcome back</h4>
+        <p class="text-muted small mb-0">Sign in to continue</p>
+      </div>
 
       <!-- Error Alert -->
-      <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center gap-2 py-2">
-        <i class="bi bi-exclamation-triangle-fill"></i>
-        <span>{{ errorMessage }}</span>
+      <div *ngIf="errorMessage" class="alert-error d-flex align-items-center gap-2 mb-3 px-3 py-2 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+        <span class="small">{{ errorMessage }}</span>
       </div>
 
       <!-- Username -->
       <div class="mb-3">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-person me-1 text-primary"></i>Username
+        <label class="field-label mb-1">
+          <i class="bi bi-person me-1"></i>USERNAME
         </label>
         <input
           type="text"
-          class="form-control form-control-lg"
+          class="pos-input w-100"
           [(ngModel)]="username"
           placeholder="Enter username"
           (keyup.enter)="login()"
@@ -38,19 +59,19 @@
 
       <!-- Password -->
       <div class="mb-4">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-lock me-1 text-primary"></i>Password
+        <label class="field-label mb-1">
+          <i class="bi bi-lock me-1"></i>PASSWORD
         </label>
-        <div class="input-group">
+        <div class="input-group-pos">
           <input
             [type]="showPassword ? 'text' : 'password'"
-            class="form-control form-control-lg"
+            class="pos-input flex-grow-1"
             [(ngModel)]="password"
             placeholder="Enter password"
             (keyup.enter)="login()"
             [disabled]="isLoading"
             autocomplete="current-password" />
-          <button class="btn btn-outline-secondary" type="button" (click)="togglePassword()">
+          <button class="toggle-btn" type="button" (click)="togglePassword()">
             <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
           </button>
         </div>
@@ -58,7 +79,7 @@
 
       <!-- Login Button -->
       <button
-        class="btn btn-primary btn-lg w-100 fw-semibold"
+        class="sign-in-btn w-100 mb-4"
         (click)="login()"
         [disabled]="isLoading">
         <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
@@ -66,45 +87,276 @@
         {{ isLoading ? 'Signing in...' : 'Sign In' }}
       </button>
 
-    </div>
-
-    <!-- Footer with demo credentials -->
-    <div class="card-footer bg-light border-0 px-4 py-3"
-         style="border-radius: 0 0 16px 16px !important;">
-      <p class="text-muted small mb-2 fw-semibold text-center">Demo Credentials</p>
-      <div class="row g-2">
-        <div class="col-6">
-          <div class="bg-white border rounded p-2 text-center small"
+      <!-- Demo Credentials -->
+      <div class="demo-section">
+        <p class="field-label text-center mb-2">DEMO CREDENTIALS</p>
+        <div class="d-flex gap-2">
+          <div class="demo-card flex-fill text-center"
                style="cursor:pointer;" (click)="username='admin'; password='admin123'">
-            <i class="bi bi-shield-check text-danger d-block mb-1"></i>
-            <strong>Admin</strong><br>
-            <span class="text-muted">admin / admin123</span>
+            <i class="bi bi-shield-check demo-icon-admin d-block mb-1"></i>
+            <strong class="small d-block">Admin</strong>
+            <span class="text-muted" style="font-size:0.7rem;">admin / admin123</span>
           </div>
-        </div>
-        <div class="col-6">
-          <div class="bg-white border rounded p-2 text-center small"
+          <div class="demo-card flex-fill text-center"
                style="cursor:pointer;" (click)="username='cashier'; password='cashier123'">
-            <i class="bi bi-person-badge text-success d-block mb-1"></i>
-            <strong>Cashier</strong><br>
-            <span class="text-muted">cashier / cashier123</span>
+            <i class="bi bi-person-badge demo-icon-cashier d-block mb-1"></i>
+            <strong class="small d-block">Cashier</strong>
+            <span class="text-muted" style="font-size:0.7rem;">cashier / cashier123</span>
           </div>
         </div>
+        <p class="text-muted text-center mt-2 mb-0" style="font-size: 0.68rem; opacity: 0.6;">
+          Click a card above to auto-fill credentials
+        </p>
       </div>
-      <p class="text-muted text-center mt-2 mb-0" style="font-size: 0.72rem;">
-        Click a card above to auto-fill credentials
-      </p>
-    </div>
 
+    </div>
   </div>
 </div>
 
 <style>
-.login-wrapper {
-  background: linear-gradient(135deg, #1a237e 0%, #1976d2 50%, #42a5f5 100%);
-  min-height: 100vh;
-}
-.login-card {
-  border-radius: 16px !important;
-  overflow: hidden;
-}
+  /* ---- Tokens matching dashboard palette ---- */
+  :root {
+    --sidebar-bg: #1a1f2e;
+    --sidebar-accent: #252d3d;
+    --green-active: #4ade80;
+    --primary-btn: #4f6ef7;
+    --primary-btn-hover: #3d5ce5;
+    --input-bg: #f4f6fb;
+    --input-border: #e2e8f0;
+    --input-focus: #4f6ef7;
+    --text-dark: #1e2535;
+    --text-muted: #8592a6;
+    --form-bg: #ffffff;
+    --label-color: #94a3b8;
+  }
+
+  .login-wrapper {
+    background: #f0f2f7;
+    min-height: 100vh;
+  }
+
+  .login-outer {
+    border-radius: 16px;
+    overflow: hidden;
+    width: 820px;
+    min-height: 520px;
+    max-width: 95vw;
+  }
+
+  /* Left panel — matches sidebar exactly */
+  .brand-panel {
+    width: 280px;
+    min-width: 280px;
+    background: var(--sidebar-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brand-panel::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(79, 110, 247, 0.08);
+  }
+
+  .brand-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(74, 222, 128, 0.05);
+  }
+
+  .brand-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(79, 110, 247, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(79, 110, 247, 0.3);
+  }
+
+  .brand-icon i {
+    font-size: 1.6rem;
+    color: #4f6ef7;
+  }
+
+  .brand-divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  .feature-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-active);
+    flex-shrink: 0;
+  }
+
+  /* Right form panel */
+  .form-panel {
+    flex: 1;
+    background: var(--form-bg);
+    min-width: 0;
+  }
+
+  .form-title {
+    color: var(--text-dark);
+    font-size: 1.4rem;
+    letter-spacing: -0.3px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--label-color);
+    text-transform: uppercase;
+  }
+
+  .pos-input {
+    background: #ffffff;
+    border: 1.5px solid #c8d3e6;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .pos-input:focus {
+    border-color: #4f6ef7;
+    box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.12);
+    background: #ffffff;
+  }
+
+  .pos-input::placeholder {
+    color: #b0bdd0;
+  }
+
+  .input-group-pos {
+    display: flex;
+    align-items: stretch;
+    border: 1.5px solid #c8d3e6;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .input-group-pos:focus-within {
+    border-color: #4f6ef7;
+    box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.12);
+  }
+
+  .input-group-pos .pos-input {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 0 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+
+  .toggle-btn:hover {
+    color: var(--primary-btn);
+  }
+
+  /* Sign In button — matches dashboard's active nav item color */
+  .sign-in-btn {
+    background: #4f6ef7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 14px rgba(79, 110, 247, 0.45);
+  }
+
+  .sign-in-btn:hover:not(:disabled) {
+    background: #3d5ce5 !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(79, 110, 247, 0.55);
+  }
+
+  .sign-in-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* Demo section */
+  .demo-section {
+    border-top: 1px solid var(--input-border);
+    padding-top: 16px;
+  }
+
+  .demo-card {
+    background: #fff;
+    border: 1.5px solid #d1d9e8;
+    border-radius: 8px;
+    padding: 12px 8px;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .demo-card:hover {
+    border-color: var(--input-focus);
+    background: #eef1fd;
+    box-shadow: 0 2px 8px rgba(79, 110, 247, 0.15);
+  }
+
+  .demo-icon-admin {
+    color: #ef4444;
+    font-size: 1.1rem;
+  }
+
+  .demo-icon-cashier {
+    color: #22c55e;
+    font-size: 1.1rem;
+  }
+
+  .alert-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .brand-panel { display: none !important; }
+    .login-outer { width: 100%; border-radius: 0; min-height: 100vh; }
+    .form-panel { padding: 2rem 1.5rem !important; }
+  }
 </style>

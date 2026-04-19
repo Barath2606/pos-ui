@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-railway-api.up.railway.app/api'  // Replace with your Railway URL after deployment
+  apiUrl: 'https://pos-api-production-f375.up.railway.app/api'
 };

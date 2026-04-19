@@ -1,0 +1,176 @@
+<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border"></div>
+  <p class="mt-2 text-muted">Loading dashboard...</p>
+</div>
+
+<div *ngIf="!isLoading">
+
+  <!-- Stat Cards Row -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+      <div class="card stat-card" style="border-left: 3px solid var(--blue);">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stat-icon" style="background:var(--blue-soft); color:var(--blue);">
+              <i class="bi bi-currency-rupee"></i>
+            </div>
+            <div>
+              <div class="stat-label">Today's Revenue</div>
+              <div class="stat-value">₹{{ todayRevenue | number:'1.0-0' }}</div>
+              <div class="stat-change" style="color:var(--accent-dark);">
+                <i class="bi bi-arrow-up-short"></i>{{ todaySales.length }} sales today
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card" style="border-left: 3px solid var(--accent);">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stat-icon" style="background:var(--green-soft); color:var(--accent-dark);">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+              <div class="stat-label">Total Revenue</div>
+              <div class="stat-value">₹{{ totalRevenue | number:'1.0-0' }}</div>
+              <div class="stat-change text-muted">{{ sales.length }} total transactions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card" style="border-left: 3px solid var(--orange);">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stat-icon" style="background:var(--orange-soft); color:var(--orange);">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div>
+              <div class="stat-label">Total Products</div>
+              <div class="stat-value">{{ products.length }}</div>
+              <div class="stat-change" style="color:var(--red);">
+                <i class="bi bi-exclamation-circle"></i>{{ outOfStock }} out of stock
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card" style="border-left: 3px solid var(--purple);">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stat-icon" style="background:var(--purple-soft); color:var(--purple);">
+              <i class="bi bi-percent"></i>
+            </div>
+            <div>
+              <div class="stat-label">Tax Collected</div>
+              <div class="stat-value">₹{{ totalTax | number:'1.0-0' }}</div>
+              <div class="stat-change text-muted">All time total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Content Row -->
+  <div class="row g-3">
+
+    <!-- Recent Sales -->
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-clock-history me-2 text-primary"></i>Recent Transactions</span>
+          <a routerLink="/sales" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="recentSales.length === 0" class="text-center py-4 text-muted">
+            <i class="bi bi-inbox fs-2"></i><p class="mt-2 small">No sales yet</p>
+          </div>
+          <table class="table table-hover mb-0" *ngIf="recentSales.length > 0">
+            <thead>
+              <tr>
+                <th>Sale ID</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th class="text-end">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of recentSales">
+                <td><span class="badge bg-secondary">#{{ s.saleId }}</span></td>
+                <td class="text-muted small">{{ formatDate(s.saleDate) }}</td>
+                <td>{{ s.items.length || 0 }} items</td>
+                <td class="text-end fw-600" style="color:var(--accent-dark);">
+                  ₹{{ s.netAmount | number:'1.2-2' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-lg-5">
+
+      <!-- Top Selling -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="bi bi-trophy me-2 text-warning"></i>Top Selling Products
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="topProducts.length === 0" class="text-center py-3 text-muted small">No data yet</div>
+          <div *ngFor="let p of topProducts; let i = index"
+               class="d-flex align-items-center justify-content-between px-4 py-2"
+               style="border-bottom: 1px solid var(--border);">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge rounded-pill"
+                    [style.background]="i===0?'var(--orange)':i===1?'#9ca3af':i===2?'#cd7f32':'var(--border-dark)'"
+                    style="color:#fff; font-size:0.60rem; width:25px; text-align:center;">
+                {{ i + 1 }}
+              </span>
+              <span class="small fw-500">{{ p.name }}</span>
+            </div>
+            <span class="badge bg-light text-secondary">{{ p.count }} sold</span>
+          </div>
+          <div *ngIf="topProducts.length === 0" class="text-center py-3 text-muted small">No sales data</div>
+        </div>
+      </div>
+
+      <!-- Low Stock Alert -->
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-exclamation-triangle me-2" style="color:var(--red);"></i>Low Stock</span>
+          <a routerLink="/stock-alerts" class="btn btn-sm btn-outline-danger">View All</a>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="lowStockProducts.length === 0" class="text-center py-3 text-muted small">
+            All products are well stocked ✅
+          </div>
+          <div *ngFor="let p of lowStockProducts"
+               class="d-flex align-items-center justify-content-between px-4 py-2"
+               style="border-bottom: 1px solid var(--border);">
+            <span class="small fw-500">{{ p.productName }}</span>
+            <span class="badge"
+                  [ngClass]="p.stockQuantity === 0 ? 'bg-danger' : 'bg-warning'">
+              {{ p.stockQuantity === 0 ? 'Out of stock' : p.stockQuantity + ' left' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
