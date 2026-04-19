@@ -653,3 +653,13 @@ hr { border-color: var(--border); opacity: 1; }
   .pos-sidebar { transform: translateX(-100%); }
   .pos-main { margin-left: 0; }
 }
+.btn-outline-success {
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+/* .btn-outline-success:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+} */

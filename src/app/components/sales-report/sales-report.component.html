@@ -1,20 +1,5 @@
 <!-- Top actions bar -->
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div class="d-flex align-items-center gap-3">
-    <!-- Date filter inline -->
-    <div class="d-flex align-items-center gap-2">
-      <label class="text-muted small mb-0" style="white-space:nowrap;">Filter by date:</label>
-      <input type="date" class="form-control form-control-sm" [(ngModel)]="searchDate"
-             style="width:160px;" />
-      <button class="btn btn-sm btn-outline-secondary" *ngIf="searchDate" (click)="searchDate=''">
-        <i class="bi bi-x"></i>
-      </button>
-    </div>
-  </div>
-  <button class="btn btn-outline-primary btn-sm" (click)="loadSales()" [disabled]="isLoading">
-    <i class="bi bi-arrow-clockwise me-1"></i>Refresh
-  </button>
-</div>
+
 
 <!-- Error -->
 <div *ngIf="errorMessage" class="alert alert-danger mb-3">
@@ -79,7 +64,32 @@
   </div>
 
 </div>
-
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex align-items-center gap-3">
+    <!-- Date filter inline -->
+    <div class="d-flex align-items-center gap-2">
+      <label class="text-muted small mb-0" style="white-space:nowrap;">Filter by date:</label>
+      <input type="date" class="form-control form-control-sm" [(ngModel)]="searchDate"
+             style="width:160px;" />
+      <button class="btn btn-sm btn-outline-secondary" *ngIf="searchDate" (click)="searchDate=''">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm btn-outline-success" (click)="downloadExcel()"
+            [disabled]="filteredSales.length === 0" title="Download Excel">
+      <i class="bi bi-file-earmark-excel me-1"></i>Excel
+    </button>
+    <button class="btn btn-sm btn-outline-danger" (click)="downloadPDF()"
+            [disabled]="filteredSales.length === 0" title="Download PDF">
+      <i class="bi bi-file-earmark-pdf me-1"></i>PDF
+    </button>
+    <button class="btn btn-outline-primary btn-sm" (click)="loadSales()" [disabled]="isLoading">
+      <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+    </button>
+  </div>
+</div>
 <!-- Sales Table -->
 <div class="card">
   <div class="card-header d-flex justify-content-between align-items-center">
